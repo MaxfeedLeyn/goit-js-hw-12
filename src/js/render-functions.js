@@ -78,7 +78,7 @@ function showLoadMoreButton() {
 function hideLoadMoreButton() {
   const fetchButton = document.querySelector('.btn-fetch');
   if (fetchButton === null) {
-    console.error("THERE ARE NO SENSE TO HIDE SOMETHING THAT DOES NOT EXIST");
+    console.error('THERE ARE NO SENSE TO HIDE SOMETHING THAT DOES NOT EXIST');
     return;
   }
   fetchButton.classList.add('visually-hidden');
@@ -93,12 +93,12 @@ function smoothScroll() {
   });
 }
 
-export{
+export {
   createGallery,
   clearGallery,
   showLoader,
   hideLoader,
   showLoadMoreButton,
   hideLoadMoreButton,
-  smoothScroll
+  smoothScroll,
 };

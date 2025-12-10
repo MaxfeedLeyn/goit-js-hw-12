@@ -23,34 +23,31 @@ loadMore.addEventListener('click', async () => {
   let totalCheck;
   hideLoadMoreButton();
   showLoader();
-  try { 
+  try {
     const response = await getImagesByQuery(inputQuery, ++page);
     totalCheck = response.total;
     createGallery(response.images);
-          smoothScroll();
-  }
-  catch (error) { 
+    smoothScroll();
+  } catch (error) {
     console.error('Error fetching images:', error);
-  }
-  finally {
+  } finally {
     hideLoader();
     if (totalCheck === undefined) {
-      console.error("Error during extract total");
+      console.error('Error during extract total');
       return;
     }
     if (page * 15 < totalCheck) {
       showLoadMoreButton();
-    }
-    else {
+    } else {
       iziToast.info({
-        title: 'We\'re sorry, but you\'ve reached the end of search results',
+        title: "We're sorry, but you've reached the end of search results",
         position: 'topRight',
       });
     }
   }
 });
 
-form.addEventListener('submit', async (event) => {
+form.addEventListener('submit', async event => {
   event.preventDefault();
   page = 1;
   let totalHits;
@@ -78,9 +75,9 @@ form.addEventListener('submit', async (event) => {
     } else {
       createGallery(response.images);
       if (page * 15 < totalHits) {
-        showLoadMoreButton(); 
+        showLoadMoreButton();
       }
-    form.reset();
+      form.reset();
     }
   } catch (error) {
     console.error('Error fetching images:', error);
