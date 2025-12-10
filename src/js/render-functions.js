@@ -64,26 +64,41 @@ function hideLoader() {
 }
 
 function showLoadMoreButton() {
-  const button = document.querySelector('.btn-fetch');
+  let button = document.querySelector('.btn-fetch');
   if (button === null) {
     const container = document.querySelector('.container');
     const htmlString =
       '<button class="btn-fetch visually-hidden">Load More</button>';
     container.insertAdjacentHTML('beforeend', htmlString);
+    button = document.querySelector('.btn-fetch');
   }
   button.classList.remove('visually-hidden');
 }
 
 function hideLoadMoreButton() {
-  const loader = document.querySelector('.btn-fetch');
-  loader.classList.add('visually-hidden');
+  const fetchButton = document.querySelector('.btn-fetch');
+  if (fetchButton === null) {
+    console.error("THERE ARE NO SENSE TO HIDE SOMETHING THAT DOES NOT EXIST");
+    return;
+  }
+  fetchButton.classList.add('visually-hidden');
 }
 
-export {
+function smoothScroll() {
+  let listItem = document.querySelector('.gallery-item');
+  let height = listItem.getBoundingClientRect().height;
+  window.scrollBy({
+    top: height * 2,
+    behavior: 'smooth',
+  });
+}
+
+export{
   createGallery,
   clearGallery,
   showLoader,
   hideLoader,
   showLoadMoreButton,
-  hideLoadMoreButton
+  hideLoadMoreButton,
+  scrollBy
 };

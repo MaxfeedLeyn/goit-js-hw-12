@@ -6,6 +6,7 @@ import {
   hideLoader,
   showLoadMoreButton,
   hideLoadMoreButton,
+  smoothScroll,
 } from './js/render-functions.js';
 
 import iziToast from 'izitoast';
@@ -26,6 +27,7 @@ loadMore.addEventListener('click', async () => {
     const response = await getImagesByQuery(inputQuery, ++page);
     totalCheck = response.total;
     createGallery(response.images);
+          smoothScroll();
   }
   catch (error) { 
     console.error('Error fetching images:', error);
@@ -52,9 +54,10 @@ loadMore.addEventListener('click', async () => {
 form.addEventListener('submit', async (event) => {
   event.preventDefault();
   page = 1;
+  let totalHits;
   if (input.value.trim() === '') {
     iziToast.error({
-      title: `Sorry, there are no images matching your search query. Please try again!`,
+      title: `To be honest, i wish you will be in hell if you think that empty field is funny`,
       position: 'topRight',
     });
     form.reset();
@@ -66,6 +69,8 @@ form.addEventListener('submit', async (event) => {
   try {
     const response = await getImagesByQuery(input.value, page);
 
+    totalHits = response.total;
+
     if (!response || response.images.length === 0) {
       iziToast.error({
         title: `Sorry, there are no images matching your search query. Please try again!`,
@@ -73,20 +78,14 @@ form.addEventListener('submit', async (event) => {
       });
     } else {
       createGallery(response.images);
-      showLoadMoreButton();
+      if (page * 15 < totalHits) {
+        showLoadMoreButton(); 
+      }
+    form.reset();
     }
-
-    const gallery = document.querySelector('.gallery');
-    let elementHeight = gallery.firstElementChild.getBoundingClientRect().height;
-
-    window.scrollBy({
-      top: elementHeight * 2,
-      behavior: 'smooth',
-    });
   } catch (error) {
     console.error('Error fetching images:', error);
   } finally {
     hideLoader();
-    form.reset();
   }
 });
