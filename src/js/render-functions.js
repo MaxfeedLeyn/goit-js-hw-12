@@ -100,5 +100,5 @@ export{
   hideLoader,
   showLoadMoreButton,
   hideLoadMoreButton,
-  scrollBy
+  smoothScroll
 };

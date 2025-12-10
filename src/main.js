@@ -34,7 +34,6 @@ loadMore.addEventListener('click', async () => {
   }
   finally {
     hideLoader();
-    console.log(totalCheck);
     if (totalCheck === undefined) {
       console.error("Error during extract total");
       return;
