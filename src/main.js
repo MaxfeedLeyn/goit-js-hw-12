@@ -6,7 +6,6 @@ import {
   hideLoader,
   showLoadMoreButton,
   hideLoadMoreButton,
-  smoothScroll,
 } from './js/render-functions.js';
 
 import iziToast from 'izitoast';
@@ -27,7 +26,11 @@ loadMore.addEventListener('click', async () => {
     const response = await getImagesByQuery(inputQuery, ++page);
     totalCheck = response.total;
     createGallery(response.images);
-    smoothScroll();
+    const listItem = document.querySelector('.gallery-item');
+    if (listItem) {
+      const height = listItem.getBoundingClientRect().height;
+      window.scrollBy({ top: height * 2, behavior: 'smooth' });
+    }
   } catch (error) {
     console.error('Error fetching images:', error);
   } finally {
@@ -49,6 +52,7 @@ loadMore.addEventListener('click', async () => {
 
 form.addEventListener('submit', async event => {
   event.preventDefault();
+  hideLoadMoreButton();
   page = 1;
   let totalHits;
   if (input.value.trim() === '') {
@@ -76,6 +80,11 @@ form.addEventListener('submit', async event => {
       createGallery(response.images);
       if (page * 15 < totalHits) {
         showLoadMoreButton();
+      } else {
+        iziToast.info({
+          title: "We're sorry, but you've reached the end of search results",
+          position: 'topRight',
+        });
       }
       form.reset();
     }

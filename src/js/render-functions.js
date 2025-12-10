@@ -76,21 +76,15 @@ function showLoadMoreButton() {
 }
 
 function hideLoadMoreButton() {
-  const fetchButton = document.querySelector('.btn-fetch');
+  let fetchButton = document.querySelector('.btn-fetch');
   if (fetchButton === null) {
-    console.error('THERE ARE NO SENSE TO HIDE SOMETHING THAT DOES NOT EXIST');
-    return;
+    const container = document.querySelector('.container');
+    const htmlString =
+      '<button class="btn-fetch">Load More</button>';
+    container.insertAdjacentHTML('beforeend', htmlString);
+    fetchButton = document.querySelector('.btn-fetch');
   }
   fetchButton.classList.add('visually-hidden');
-}
-
-function smoothScroll() {
-  let listItem = document.querySelector('.gallery-item');
-  let height = listItem.getBoundingClientRect().height;
-  window.scrollBy({
-    top: height * 2,
-    behavior: 'smooth',
-  });
 }
 
 export {
@@ -100,5 +94,4 @@ export {
   hideLoader,
   showLoadMoreButton,
   hideLoadMoreButton,
-  smoothScroll,
 };
